@@ -1,0 +1,83 @@
+{
+  "manifest_version": "0.2",
+  "name": "tmux Sessions",
+  "display_name": "tmux Sessions",
+  "version": "0.1.0",
+  "description": "Lets Claude manage tmux sessions on Linux — start long-running jobs, check their output, send keystrokes, and kill them.",
+  "long_description": "Designed for long-running ML training, data pipelines, and other jobs you want to survive beyond a single Claude conversation. Claude can start a detached tmux session with an initial command, capture the last N lines of a pane to check progress, send keys (including Ctrl+C), and terminate sessions.\n\n**Typical workflow:** start a training run inside a named session, have Claude check its progress an hour later by capturing the pane, and either let it continue, interrupt it, or kill the session entirely. You can also `tmux attach -t <name>` from any terminal to watch the job live — Claude and a human can observe the same session simultaneously.\n\n**Requires** `tmux` installed on the system (`sudo apt install tmux`). No npm dependencies.\n\n**Scope:** tmux only in v0.1. No window/pane splitting, no `tmux attach` (that's done from a real terminal, not via MCP). systemd --user service control may land in a later version.",
+  "author": {
+    "name": "Luke Lamb",
+    "url": "https://github.com/LukeLamb"
+  },
+  "homepage": "https://github.com/LukeLamb/claude-sessions-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LukeLamb/claude-sessions-mcp"
+  },
+  "documentation": "https://github.com/LukeLamb/claude-sessions-mcp#readme",
+  "support": "https://github.com/LukeLamb/claude-sessions-mcp/issues",
+  "icon": "icon.png",
+  "privacy_policies": [
+    "https://github.com/LukeLamb/claude-sessions-mcp#privacy-policy"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server.js"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "list_sessions",
+      "description": "List all tmux sessions on the current user's tmux server. Returns name, window count, created/activity timestamps, and attached status. Returns an empty list if no tmux server is running."
+    },
+    {
+      "name": "has_session",
+      "description": "Check whether a named tmux session exists. Cheap precondition for capture_pane / send_keys."
+    },
+    {
+      "name": "list_windows",
+      "description": "List windows within a named session (index, name, active flag, pane count)."
+    },
+    {
+      "name": "capture_pane",
+      "description": "Capture the last N lines of text visible in a session's active pane (default 100). The primitive for 'is my training still running?'."
+    },
+    {
+      "name": "new_session",
+      "description": "Start a new detached tmux session with a given name. Optionally runs an initial command inside the shell (sent as keystrokes + Enter, so shell features like aliases and venvs work as expected)."
+    },
+    {
+      "name": "send_keys",
+      "description": "Send key combos or text to a session's active pane. Useful for C-c (interrupt), C-d (close), or typing a command. Text is sent literally; combos use tmux key notation."
+    },
+    {
+      "name": "kill_session",
+      "description": "Terminate a named tmux session. Any processes running inside (including the initial command) are sent SIGHUP."
+    }
+  ],
+  "keywords": [
+    "tmux",
+    "session",
+    "training",
+    "ml",
+    "background",
+    "long-running",
+    "linux",
+    "claude-desktop"
+  ],
+  "license": "MIT",
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": [
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=16.0.0"
+    }
+  }
+}
