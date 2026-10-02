@@ -1,6 +1,6 @@
 {
   "name": "claude-sessions-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for managing tmux sessions on Linux — start, monitor, interrupt, and kill long-running jobs.",
   "main": "server.js",
   "license": "MIT",

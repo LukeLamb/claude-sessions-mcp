@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "tmux Sessions",
   "display_name": "tmux Sessions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lets Claude manage tmux sessions on Linux — start long-running jobs, check their output, send keystrokes, and kill them.",
   "long_description": "Designed for long-running ML training, data pipelines, and other jobs you want to survive beyond a single Claude conversation. Claude can start a detached tmux session with an initial command, capture the last N lines of a pane to check progress, send keys (including Ctrl+C), and terminate sessions.\n\n**Typical workflow:** start a training run inside a named session, have Claude check its progress an hour later by capturing the pane, and either let it continue, interrupt it, or kill the session entirely. You can also `tmux attach -t <name>` from any terminal to watch the job live — Claude and a human can observe the same session simultaneously.\n\n**Requires** `tmux` installed on the system (`sudo apt install tmux`). No npm dependencies.\n\n**Scope:** tmux only in v0.1. No window/pane splitting, no `tmux attach` (that's done from a real terminal, not via MCP). systemd --user service control may land in a later version.",
   "author": {
